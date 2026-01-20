@@ -1,0 +1,409 @@
+@use "../styles/variables" as *;
+
+.frame {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 8px;
+  background-color: $dark-brown;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// Top Navigation
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 2px 7px 3px;
+  color: $cream;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoIcon {
+  width: fit-content;
+  height: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.logoText {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.readingsLink {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.navArrows {
+  position: absolute;
+  width: 100%;
+  border: 2px solid black;
+  top: 40px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+
+  svg {
+    width: fit-content;
+    height: 100%;
+  }
+}
+
+.navArrowLeft {
+  position: absolute;
+  top: 45px;
+  left: 20px;
+  height: 24px;
+  z-index: 1000;
+}
+
+.navArrowRight {
+  position: absolute;
+  top: 45px;
+  right: 20px;
+  height: 24px;
+  z-index: 1000;
+}
+
+.chaptersButton {
+  display: flex;
+  background-color: $light-pink;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  color: $dark-brown;
+}
+
+.navButtonPrimary {
+  @extend .chaptersButton;
+  display: flex;
+  align-items: center;
+  background-color: black;
+  color: white;
+  gap: 8px;
+
+  .dot {
+    width: 5px;
+    height: 5px;
+    background-color: #25ca58;
+    border-radius: 50%;
+  }
+}
+
+// Main Content Container
+.contentWrapper {
+  background-color: $white;
+  border-radius: $radius-sm;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+
+  // Custom scrollbar
+  &::-webkit-scrollbar {
+    width: 8px;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($dark-brown, 0.3);
+    border-radius: 4px;
+  }
+}
+
+.content {
+  min-height: 100%;
+}
+
+// Hero Section
+.hero {
+  margin-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 3vh;
+  padding-bottom: 2vh;
+  border-bottom: 1px solid $cream;
+}
+
+.heroTitle {
+  font-size: clamp(120px, 20vw, 280px);
+  font-weight: 700;
+  color: $dark-brown;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  width: 94%;
+  svg {
+    width: 100%;
+    height: fit-content;
+  }
+  // Leave space for custom display font
+  // font-family: $font-display;
+}
+
+// Readings Section
+.readings {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  padding: 0px 20px;
+  margin-bottom: $section-gap;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.readingCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 220px;
+}
+
+.bookmarkIcon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 20px;
+  margin-top: 1px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+  }
+}
+
+.readingTitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: $text-dark;
+  font-weight: 500;
+}
+
+// Chapters Section
+.chapters {
+  margin-top: 12vw;
+}
+
+.chaptersHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.chaptersTitle {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  background: $dark-brown;
+  border-radius: 2px;
+  font-weight: 600;
+  color: $white;
+}
+
+.chaptersGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  padding: 0px 20px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.chapterCard {
+  border: 1px solid $light-pink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  transition: all $transition-fast;
+  background: transparent;
+  aspect-ratio: 3 / 1;
+  border-radius: 2px;
+  font-weight: 600;
+
+  &:hover {
+    background: $dark-brown;
+    color: $cream;
+  }
+}
+
+.chapterTitle {
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+// Bottom Navigation
+.bottomNav {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 19px 30px 20px 20px;
+  border-radius: $radius-sm;
+  pointer-events: none;
+}
+
+.bookCallButton {
+  display: flex;
+  align-items: stretch;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all $transition-fast;
+  height: fit-content;
+}
+
+.bookCallOuter {
+  background-color: $white;
+  border: 1px solid $dark-brown;
+  padding: 5px;
+}
+
+.bookCallInner {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background-color: $skin;
+  border: 1px solid $light-brown;
+  padding: 2px;
+
+  div {
+    padding: 5px 28px 5px 5px;
+  }
+}
+
+.bookCallTitle {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $dark-brown;
+}
+
+.bookCallSubtitle {
+  font-size: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: $light-brown;
+  margin-top: 2px;
+  font-family: $font-primary;
+}
+
+.bookCallArrow {
+  display: flex;
+  align-items: start;
+  justify-content: flex-start;
+  height: 15px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.scrollIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: $dark-brown;
+  opacity: 0.7;
+}
+
+.ctaButton {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all $transition-fast;
+}
+
+.ctaCornerArrow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -3px;
+  margin-right: -16px;
+
+  svg {
+    display: block;
+  }
+}
+
+.ctaOuter {
+  background-color: $skin;
+  border: 1px solid $light-brown;
+  padding: 1px;
+}
+
+.ctaInner {
+  background-color: $dark-brown;
+  border: 1px solid $light-brown;
+  padding: 8px 20px;
+}
+
+.ctaText {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $cream;
+}
+
+// Spacer for scrolling content
+.spacer {
+  height: 200px;
+}
