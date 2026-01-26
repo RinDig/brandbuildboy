@@ -4,6 +4,7 @@ import { ThreeWheelStrategy } from "@/components/ThreeWheelStrategy";
 import { Services } from "@/components/Services";
 import { ParadigmShift } from "@/components/ParadigmShift";
 import { Works } from "@/components/Works";
+import { Reviews } from "@/components/Reviews";
 import { Team } from "@/components/Team";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
       <ThreeWheelStrategy />
       <Services />
       <Works />
+      <Reviews />
       <ParadigmShift />
       <Team />
     </Layout>
