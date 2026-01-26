@@ -162,7 +162,18 @@ export function Works() {
         <div ref={viewportRef} className={styles.stickyViewport}>
           {/* Global Header/Button if needed fixed at top-right */}
           <div className={styles.header}>
-            <button className={styles.seeAll}>SEE ALL WORKS -&gt;</button>
+            <svg
+              width="280"
+              height="46"
+              viewBox="0 0 344 46"
+              className={styles.seeAll}
+            >
+              <path
+                fill="#000"
+                d="M0 7V45.5H344L311.601 2.77064C310.277 1.02527 308.213 0 306.023 0H7C3.13401 0 0 3.13401 0 7Z"
+              />
+            </svg>
+            <span className={styles.tabLabel}>SEE ALL WORKS -&gt;</span>
           </div>
 
           {works.map((work, index) => {
@@ -191,7 +202,7 @@ export function Works() {
                   <div
                     className={styles.tab}
                     style={{
-                      left: `${(index * 250)+ 40}px`, // Offset calculation
+                      left: `${index * 250 + 40}px`, // Offset calculation
                       zIndex: 10 + index,
                     }}
                   >

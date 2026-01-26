@@ -22,32 +22,37 @@
 
 .header {
   position: absolute;
-  top: 0;
-  right: 0;
-  padding: 40px;
+  top: 22px;
+  right: 55px;
+  // padding: 40px;
   z-index: 100; // Above cards
+
+  span {
+    color: white;
+  }
 }
 
 .seeAll {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: black;
+  // background: black;
   color: white;
-  padding: 12px 24px;
+  // padding: 12px 24px;
   // border-radius: 4px;
   font-family: $font-mono;
   font-size: 12px;
   text-transform: uppercase;
   overflow: hidden;
-  
+  height: 60px;
+
   // Custom button styling if needed
 }
 
 // The "Transparent" Card Container
 .cardContainer {
   position: absolute;
-  top: 0;
+  top: 20px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -76,7 +81,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 -4px 12px rgba(0,0,0,0.05)); // Subtle shadow for depth
   transform-origin: bottom center;
 
   &::after {
@@ -100,7 +104,7 @@
 }
 
 .tabPath {
-  fill: var(--work-bg, #F0EBE6);
+  fill: var(--work-bg, #f0ebe6);
 }
 
 .tabLabel {
@@ -113,23 +117,21 @@
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--work-title, #5D3136);
+  color: var(--work-title, #5d3136);
   z-index: 2;
 }
-
 
 .body {
   margin-top: 50px; // Space for tabs
   width: 100%;
   height: calc(100% - 50px);
-  background: var(--work-bg, #F0EBE6); // Light Beige
+  background: var(--work-bg, #f0ebe6); // Light Beige
   border-radius: 10px 10px 0 0; // Top rounded
   display: flex;
   flex-direction: column;
   padding: 40px 60px;
   // box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
   overflow: hidden;
-
 }
 
 // Content Inside Body
@@ -142,10 +144,11 @@
 
 .mainTitle {
   font-family: $font-primary;
-  font-size: clamp(40px, 5vw, 80px);
+  font-size: 4vw;
   font-weight: 700;
-  line-height: 0.9;
-  color: var(--work-title, #5D3136); // Default accent
+  align-self: center;
+  // line-height: 0.9;
+  color: var(--work-title, #5d3136); // Default accent
   max-width: 60%;
 }
 
@@ -167,33 +170,44 @@
 }
 
 .tag {
-  background: var(--work-tag-bg, #EAD5D6);
-  color: var(--work-tag-text, #5D3136);
+  background: var(--work-tag-bg, #ead5d6);
+  color: var(--work-tag-text, #5d3136);
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 2px;
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .divider {
-  width: 100%;
+  width: 120%;
   height: 1px;
   border-bottom: 2px dashed var(--work-divider, rgba(93, 49, 54, 0.2));
   margin-bottom: 40px;
+  margin-left: -10%;
+  position: relative;
 }
 
 .gallery {
   display: grid;
+  width: 112%;
+  margin-left: -6%;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
+  padding: 20px 30px;
   margin-bottom: 40px;
-  flex: 1; // Take available space
+  flex: 0.85; // Take available space
+  overflow: scroll;
+  background-color: var(--work-tag-bg, #5d3136);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .placeholder {
-  background: var(--work-placeholder-bg, rgba(93, 49, 54, 0.05));
-  border-radius: 12px;
+  background: var(--work-divider, rgba(93, 49, 54, 0.05));
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,13 +216,14 @@
   color: var(--work-placeholder-text, rgba(93, 49, 54, 0.4));
   letter-spacing: 1px;
   aspect-ratio: 16/10;
+  // border: white 1px solid;
 }
 
 .summary {
   font-family: $font-primary; // Or Body font
   font-size: 20px;
   line-height: 1.4;
-  color: var(--work-summary, #4A4A4A);
+  color: var(--work-summary, #4a4a4a);
   max-width: 800px;
 }
 
@@ -216,12 +231,12 @@
   .body {
     padding: 24px;
   }
-  
+
   .gallery {
     grid-template-columns: 1fr;
     gap: 12px;
   }
-  
+
   .mainTitle {
     font-size: 40px;
   }
