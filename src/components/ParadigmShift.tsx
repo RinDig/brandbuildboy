@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import styles from "./ParadigmShift.module.scss";
+import Link from "next/link";
 import { ArrowCorner } from "./ArrowCorner";
 import { DotsArrow } from "./DotsArrow";
 
@@ -10,6 +11,7 @@ const industries = [
   {
     id: "EB001",
     title: "Defence & Military",
+    slug: "defense-military",
     description:
       "Mission-critical AI systems with security-first architecture. We build decision support tools that operate in contested environments, maintain human oversight, and meet the strictest compliance requirements.",
     cta: "LEARN MORE",
@@ -17,6 +19,7 @@ const industries = [
   {
     id: "EB001",
     title: "Aerospace",
+    slug: "aerospace",
     description:
       "From predictive maintenance to supply chain optimization. We help aerospace companies build AI capabilities that reduce costs, improve safety margins, and accelerate certification timelines.",
     cta: "LEARN MORE",
@@ -24,6 +27,7 @@ const industries = [
   {
     id: "EB001",
     title: "Enterprise",
+    slug: "enterprise",
     description:
       "Stop buying dashboards. Start building what your people actually use. In one sprint, your team will ship a working AI pipeline and a clear build vs buy vs orchestrate plan. We'll tell you what not to automate—and where AI truly pays back.",
     cta: "LEARN MORE",
@@ -31,6 +35,7 @@ const industries = [
   {
     id: "EB001",
     title: "Government",
+    slug: "government",
     description:
       "Citizen-centric AI that improves service delivery while maintaining transparency and accountability. We navigate procurement complexity and build systems that work within existing infrastructure.",
     cta: "LEARN MORE",
@@ -212,7 +217,12 @@ export function ParadigmShift() {
                       </svg>
                     </span>
                   </p>
-                  <button className={styles.ctaButton}>{industry.cta}</button>
+                  <Link
+                    className={styles.ctaButton}
+                    href={`/sectors/${industry.slug}`}
+                  >
+                    {industry.cta}
+                  </Link>
                 </div>
               </div>
             </div>
