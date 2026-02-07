@@ -28,8 +28,15 @@ export async function POST(request: Request) {
   const company = formData.get("company")?.toString().trim();
   const sector = formData.get("sector")?.toString().trim();
   const slug = formData.get("slug")?.toString().trim();
+  const website = formData.get("website")?.toString().trim();
   const context = formData.get("context")?.toString().trim() || "";
   const links = parseLinks(formData.get("links")?.toString() || "");
+  const autoLinks = formData
+    .getAll("autoLink")
+    .map((item) => item.toString().trim())
+    .filter(Boolean);
+  const include = formData.getAll("include").map((item) => item.toString());
+  const exclude = parseLinks(formData.get("exclude")?.toString() || "");
   const documents = formData.getAll("documents").filter((file) => file instanceof File) as File[];
 
   if (!company || !sector) {
@@ -67,8 +74,17 @@ export async function POST(request: Request) {
       args.push("--slug", slug);
     }
 
+    if (website) {
+      args.push("--website", website);
+    }
+
+    include.forEach((category) => args.push("--include", category));
+    exclude.forEach((pattern) => args.push("--exclude", pattern));
+
     docPaths.forEach((doc) => args.push("--doc", doc));
-    links.forEach((link) => args.push("--link", link));
+    [...new Set([...links, ...autoLinks])].forEach((link) =>
+      args.push("--link", link)
+    );
 
     const pythonBin = process.env.PYTHON_BIN || "python3";
     const child = spawn(pythonBin, args, {

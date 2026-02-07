@@ -6,7 +6,7 @@ from typing import List, Optional
 from uuid import uuid4
 
 from agent.config import Settings
-from agent.ingest import Source, gather_sources, truncate_sources
+from agent.ingest import Source, auto_pull_sources, gather_sources, truncate_sources
 from agent.openai_client import OpenAIClient
 from agent.pricing import apply_price_guardrails
 import json
@@ -44,6 +44,9 @@ class AgentInput:
     context: str
     files: List[str]
     links: List[str]
+    website: str
+    include_categories: List[str]
+    exclude_patterns: List[str]
 
 
 def build_sources_summary(sources: List[Source]) -> str:
@@ -58,6 +61,14 @@ def build_sources_summary(sources: List[Source]) -> str:
 
 def generate_sector_payload(agent_input: AgentInput, settings: Settings) -> dict:
     sources = gather_sources(agent_input.files, agent_input.links)
+    if agent_input.website and agent_input.include_categories:
+        sources.extend(
+            auto_pull_sources(
+                agent_input.website,
+                agent_input.include_categories,
+                agent_input.exclude_patterns,
+            )
+        )
     sources = truncate_sources(sources, max_chars=5000)
     sources_summary = build_sources_summary(sources)
 
@@ -94,6 +105,9 @@ class EditInput:
     context: str
     files: List[str]
     links: List[str]
+    website: str
+    include_categories: List[str]
+    exclude_patterns: List[str]
 
 
 def strip_keys(items: list[dict]) -> list[dict]:
@@ -126,6 +140,14 @@ def normalize_existing(payload: dict, slug: str) -> dict:
 
 def generate_updated_payload(edit_input: EditInput, settings: Settings) -> dict:
     sources = gather_sources(edit_input.files, edit_input.links)
+    if edit_input.website and edit_input.include_categories:
+        sources.extend(
+            auto_pull_sources(
+                edit_input.website,
+                edit_input.include_categories,
+                edit_input.exclude_patterns,
+            )
+        )
     sources = truncate_sources(sources, max_chars=5000)
     sources_summary = build_sources_summary(sources)
 

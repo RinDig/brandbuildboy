@@ -7,6 +7,8 @@ from typing import Iterable, List, Optional
 import requests
 from bs4 import BeautifulSoup
 
+from agent.discovery import discover_category_urls, filter_urls
+
 
 def read_text_file(path: str) -> str:
     with open(path, "r", encoding="utf-8", errors="ignore") as handle:
@@ -67,6 +69,34 @@ def gather_sources(files: Iterable[str], links: Iterable[str]) -> List[Source]:
     for link in links:
         content = fetch_url_text(link)
         sources.append(Source(source_id=link, source_type="link", content=content))
+    return sources
+
+
+def auto_pull_sources(
+    base_url: str,
+    include_categories: List[str],
+    exclude_patterns: List[str],
+    max_per_category: int = 3,
+) -> List[Source]:
+    if not base_url:
+        return []
+    buckets = discover_category_urls(base_url)
+    sources: List[Source] = []
+    for category in include_categories:
+        urls = buckets.get(category, [])
+        urls = filter_urls(urls, exclude_patterns)[:max_per_category]
+        for url in urls:
+            try:
+                content = fetch_url_text(url)
+            except requests.RequestException:
+                continue
+            sources.append(
+                Source(
+                    source_id=url,
+                    source_type=f"auto:{category}",
+                    content=content,
+                )
+            )
     return sources
 
 

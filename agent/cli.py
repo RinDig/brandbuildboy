@@ -20,6 +20,19 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--context", default="", help="Chat/context summary")
     parser.add_argument("--doc", action="append", default=[], help="Path to document")
     parser.add_argument("--link", action="append", default=[], help="Source link")
+    parser.add_argument("--website", default="", help="Company website for auto-pull")
+    parser.add_argument(
+        "--include",
+        action="append",
+        default=[],
+        help="Auto-pull categories (about, blog, press, careers)",
+    )
+    parser.add_argument(
+        "--exclude",
+        action="append",
+        default=[],
+        help="Exclude patterns/URLs from auto-pull",
+    )
     parser.add_argument("--edit-slug", help="Edit existing sector by slug")
     parser.add_argument(
         "--instructions", default="", help="Editing instructions for existing sector"
@@ -32,6 +45,10 @@ def main() -> None:
     args = build_parser().parse_args()
     settings = get_settings()
 
+    include_categories = args.include
+    if args.website and not include_categories:
+        include_categories = ["about", "blog", "press", "careers"]
+
     if args.edit_slug:
         edit_input = EditInput(
             slug=args.edit_slug,
@@ -40,6 +57,9 @@ def main() -> None:
             context=args.context,
             files=args.doc,
             links=args.link,
+            website=args.website,
+            include_categories=include_categories,
+            exclude_patterns=args.exclude,
         )
         payload = generate_updated_payload(edit_input, settings)
     else:
@@ -52,6 +72,9 @@ def main() -> None:
             context=args.context,
             files=args.doc,
             links=args.link,
+            website=args.website,
+            include_categories=include_categories,
+            exclude_patterns=args.exclude,
         )
         payload = generate_sector_payload(agent_input, settings)
 

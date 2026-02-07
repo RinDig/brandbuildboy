@@ -80,6 +80,131 @@
   font-family: $font-mono;
 }
 
+.checkboxGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+  align-items: center;
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.checkboxLabel {
+  color: rgba($dark-brown, 0.7);
+  margin-right: 8px;
+}
+
+.checkboxItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: $font-mono;
+  letter-spacing: -0.03em;
+  font-size: 12px;
+}
+
+.checkboxItem input {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba($dark-brown, 0.35);
+  background: $white;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.checkboxItem input::after {
+  content: "";
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid $skin;
+  border-bottom: 2px solid $skin;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.checkboxItem input:checked {
+  background: $dark-brown;
+  border-color: $dark-brown;
+  box-shadow: 0 6px 12px rgba($dark-brown, 0.2);
+}
+
+.checkboxItem input:checked::after {
+  opacity: 1;
+}
+
+.discoveryRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.discoverButton {
+  border: 1px solid rgba($dark-brown, 0.3);
+  background: $white;
+  color: $dark-brown;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.discoverButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.discoverButton:not(:disabled):hover {
+  background: $dark-brown;
+  color: $white;
+}
+
+.discoveryError {
+  color: #9b2f33;
+  font-weight: 600;
+}
+
+.discoveryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  border: 1px dashed rgba($dark-brown, 0.2);
+  padding: 16px;
+  border-radius: 8px;
+  background: rgba($white, 0.6);
+}
+
+.discoveryGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.discoveryTitle {
+  font-family: $font-mono;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba($dark-brown, 0.7);
+}
+
+.discoveryEmpty {
+  font-size: 12px;
+  color: rgba($dark-brown, 0.6);
+}
+
 .input,
 .textarea,
 .fileInput {
