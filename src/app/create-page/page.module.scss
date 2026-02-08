@@ -1,17 +1,36 @@
 @use "../../styles/variables" as *;
 
 .page {
-  background-color: var(--brand-surface, $skin);
+  background:
+    radial-gradient(
+      1200px 360px at 100% -80px,
+      color-mix(in srgb, var(--brand-action-bg, $dark-brown) 13%, transparent),
+      transparent 68%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--brand-surface, $white) 88%, white),
+      var(--brand-surface, $skin)
+    );
   color: var(--brand-surface-text, $dark-brown);
   min-height: 100%;
-  padding: 40px 48px 80px;
+  padding: 34px 38px 64px;
   font-family: var(--brand-font-body, $font-primary);
 }
 
-.header {
-  border-bottom: 1px dashed color-mix(in srgb, var(--brand-surface-text, $dark-brown) 25%, transparent);
-  padding-bottom: 28px;
-  margin-bottom: 32px;
+.hero {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 20px;
+  border: 1px solid color-mix(in srgb, var(--brand-line, $light-brown) 44%, transparent);
+  border-radius: 16px;
+  padding: 22px;
+  background:
+    linear-gradient(
+      130deg,
+      color-mix(in srgb, var(--brand-surface, $white) 72%, transparent),
+      color-mix(in srgb, var(--brand-card, $skin) 62%, transparent)
+    );
 }
 
 .kicker {
@@ -19,73 +38,191 @@
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 70%, transparent);
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 72%, transparent);
 }
 
 .title {
-  font-size: clamp(36px, 5vw, 64px);
-  line-height: 1.05;
-  margin: 16px 0 12px;
+  font-size: clamp(30px, 3.9vw, 52px);
+  line-height: 1.02;
+  margin: 10px 0;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
+  max-width: 58ch;
   font-size: 15px;
-  line-height: 1.6;
-  max-width: 640px;
-  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 80%, transparent);
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 84%, transparent);
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.section {
+.heroMetrics {
   display: grid;
-  grid-template-columns: 160px 1fr;
-  gap: 32px;
-  padding: 28px 0;
-  border-bottom: 1px dashed color-mix(in srgb, var(--brand-surface-text, $dark-brown) 25%, transparent);
+  grid-template-columns: 1fr;
+  gap: 10px;
 }
 
-.sectionMeta {
+.metricCard {
+  background: color-mix(in srgb, var(--brand-surface, $white) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand-line, $light-brown) 35%, transparent);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.metricLabel {
+  display: block;
+  margin-bottom: 3px;
+  font-family: var(--brand-font-mono, $font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 62%, transparent);
+}
+
+.metricValue {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--brand-surface-text, $dark-brown);
+  overflow-wrap: anywhere;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  gap: 18px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.sidebarCard {
+  border: 1px solid color-mix(in srgb, var(--brand-line, $light-brown) 35%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--brand-surface, $white) 88%, transparent);
+  padding: 14px;
+}
+
+.sidebarTitle {
+  margin-bottom: 8px;
+  font-family: var(--brand-font-mono, $font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 85%, transparent);
+}
+
+.steps,
+.notes {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 7px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 88%, transparent);
+}
+
+.main {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  border: 1px solid color-mix(in srgb, var(--brand-line, $light-brown) 34%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--brand-surface, $white) 94%, transparent);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--brand-action-bg, $dark-brown) 6%, transparent);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 16px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--brand-line, $light-brown) 45%, transparent);
   font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
 }
 
-.sectionSlash {
-  opacity: 0.5;
+.cardDivider {
+  opacity: 0.78;
 }
 
-.sectionBody {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.cardBody {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.label {
+  display: grid;
+  gap: 8px;
+  font-family: var(--brand-font-mono, $font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.input,
+.textarea,
+.fileInput {
+  border: 1px solid color-mix(in srgb, var(--brand-line, $light-brown) 45%, transparent);
+  background: var(--brand-surface, $white);
+  border-radius: 10px;
+  padding: 11px 12px;
+  color: var(--brand-surface-text, $dark-brown);
+  font-family: var(--brand-font-body, $font-primary);
+  font-size: 14px;
+}
+
+.input:focus,
+.textarea:focus,
+.fileInput:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--brand-action-bg, $dark-brown) 60%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-action-bg, $dark-brown) 18%, transparent);
+}
+
+.textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+.fieldHint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 72%, transparent);
 }
 
 .advancedDetails {
-  border: 1px dashed color-mix(in srgb, var(--brand-surface-text, $dark-brown) 25%, transparent);
-  border-radius: 8px;
-  padding: 12px 14px;
-  background: color-mix(in srgb, var(--brand-surface, $white) 65%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--brand-line, $light-brown) 52%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--brand-card, $skin) 50%, transparent);
+  padding: 11px 12px;
 }
 
 .advancedSummary {
   cursor: pointer;
+  user-select: none;
   font-family: var(--brand-font-mono, $font-mono);
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  font-size: 11px;
-  font-weight: 700;
-  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 80%, transparent);
-  user-select: none;
 }
 
 .advancedSummary::-webkit-details-marker {
@@ -93,252 +230,125 @@
 }
 
 .advancedBody {
-  margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.label {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-family: var(--brand-font-mono, $font-mono);
-}
-
-.checkboxGroup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px 18px;
-  align-items: center;
-  font-family: var(--brand-font-mono, $font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.checkboxLabel {
-  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 70%, transparent);
-  margin-right: 8px;
-}
-
-.checkboxItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--brand-font-mono, $font-mono);
-  letter-spacing: -0.03em;
-  font-size: 12px;
-}
-
-.checkboxItem input {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  border: 1px solid color-mix(in srgb, var(--brand-surface-text, $dark-brown) 35%, transparent);
-  background: var(--brand-surface, $white);
+  margin-top: 12px;
   display: grid;
-  place-items: center;
-  transition: background 0.2s ease, border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.checkboxItem input::after {
-  content: "";
-  width: 6px;
-  height: 10px;
-  border-right: 2px solid var(--brand-surface, $skin);
-  border-bottom: 2px solid var(--brand-surface, $skin);
-  transform: rotate(45deg);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.checkboxItem input:checked {
-  background: var(--brand-action-bg, $dark-brown);
-  border-color: var(--brand-action-bg, $dark-brown);
-  box-shadow: 0 6px 12px color-mix(in srgb, var(--brand-action-bg, $dark-brown) 20%, transparent);
-}
-
-.checkboxItem input:checked::after {
-  opacity: 1;
-}
-
-.discoveryRow {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.discoverButton {
-  border: 1px solid color-mix(in srgb, var(--brand-surface-text, $dark-brown) 30%, transparent);
-  background: var(--brand-surface, $white);
-  color: var(--brand-surface-text, $dark-brown);
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-family: var(--brand-font-mono, $font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.discoverButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.discoverButton:not(:disabled):hover {
-  background: var(--brand-action-bg, $dark-brown);
-  color: var(--brand-action-text, $white);
-}
-
-.discoveryError {
-  color: var(--brand-danger, #9b2f33);
-  font-weight: 600;
-}
-
-.discoveryGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  border: 1px dashed color-mix(in srgb, var(--brand-surface-text, $dark-brown) 20%, transparent);
-  padding: 16px;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--brand-surface, $white) 60%, transparent);
-}
-
-.discoveryGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.discoveryTitle {
-  font-family: var(--brand-font-mono, $font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 70%, transparent);
-}
-
-.discoveryEmpty {
-  font-size: 12px;
-  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 60%, transparent);
-}
-
-.input,
-.textarea,
-.fileInput {
-  border: 1px solid color-mix(in srgb, var(--brand-surface-text, $dark-brown) 20%, transparent);
-  background: var(--brand-surface, $white);
-  padding: 12px 14px;
-  border-radius: 6px;
-  font-family: var(--brand-font-body, $font-primary);
-  font-size: 14px;
-  color: var(--brand-surface-text, $dark-brown);
-}
-
-.textarea {
-  min-height: 140px;
-  resize: vertical;
-}
-
-.row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: 14px;
 }
 
 .actions {
   display: flex;
-  align-items: center;
-  gap: 20px;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
 }
 
 .submitButton {
-  background-color: var(--brand-action-bg, $dark-brown);
+  border: none;
+  border-radius: 10px;
+  padding: 13px 22px;
+  min-width: 192px;
+  background: linear-gradient(
+    140deg,
+    var(--brand-action-bg, $dark-brown),
+    color-mix(in srgb, var(--brand-action-bg, $dark-brown) 72%, black)
+  );
   color: var(--brand-action-text, $white);
-  padding: 14px 28px;
-  border-radius: 6px;
   font-family: var(--brand-font-mono, $font-mono);
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-weight: 600;
-  border: none;
+  letter-spacing: 0.14em;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.submitButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  transition: transform 0.14s ease, box-shadow 0.16s ease;
 }
 
 .submitButton:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px color-mix(in srgb, var(--brand-action-bg, $dark-brown) 20%, transparent);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--brand-action-bg, $dark-brown) 30%, transparent);
+}
+
+.submitButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .helper {
+  margin: 0;
+  max-width: 460px;
   font-size: 12px;
-  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 70%, transparent);
-  max-width: 420px;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 74%, transparent);
 }
 
-.result {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.resultCard,
+.errorCard {
+  display: grid;
+  gap: 7px;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.resultCard {
+  border: 1px solid color-mix(in srgb, var(--brand-success-dot, #25ca58) 45%, transparent);
+  background: color-mix(in srgb, var(--brand-success-dot, #25ca58) 8%, transparent);
+}
+
+.errorCard {
+  border: 1px solid color-mix(in srgb, var(--brand-danger, #9b2f33) 45%, transparent);
+  background: color-mix(in srgb, var(--brand-danger, #9b2f33) 10%, transparent);
+  color: var(--brand-danger, #9b2f33);
+}
+
+.resultLabel,
+.errorLabel {
   font-family: var(--brand-font-mono, $font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
   font-size: 11px;
-}
-
-.resultLabel {
-  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 60%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
 }
 
 .resultLink {
-  font-family: var(--brand-font-body, $font-primary);
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 14px;
   color: var(--brand-surface-text, $dark-brown);
+  font-size: 14px;
+  line-height: 1.4;
   text-decoration: underline;
+  overflow-wrap: anywhere;
 }
 
-.error {
-  color: var(--brand-danger, #9b2f33);
-  font-weight: 600;
-}
-
-@media (max-width: 900px) {
-  .page {
-    padding: 32px 28px 70px;
+@media (max-width: 1100px) {
+  .hero {
+    grid-template-columns: 1fr;
   }
 
-  .section {
+  .workspace {
     grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 24px 18px 56px;
   }
 
   .row {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 600px) {
-  .page {
-    padding: 28px 20px 60px;
+  .sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    align-items: flex-start;
+  }
+
+  .submitButton {
+    width: 100%;
   }
 }
