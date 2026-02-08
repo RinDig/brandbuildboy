@@ -1,15 +1,18 @@
+providers = ["...", "python"]
+
 [phases.setup]
-nixPkgs = ["nodejs_20", "python311", "python311Packages.pip"]
+nixPkgs = ["...", "nodejs_20", "python3", "python3Packages.pip"]
 
 [phases.install]
 cmds = [
   "npm ci",
-  "python -m pip install --upgrade pip",
-  "pip install -r agent/requirements.txt"
+  "python3 --version",
+  "python3 -m pip install --upgrade pip",
+  "python3 -m pip install -r agent/requirements.txt"
 ]
 
 [phases.build]
 cmds = ["npm run build"]
 
 [start]
-cmd = "npm run start"
+cmd = "PY_DETECTED=$(command -v python3 || command -v python || true); if [ -n \"$PY_DETECTED\" ]; then export PYTHON_BIN=\"$PY_DETECTED\"; fi; npm run start"
