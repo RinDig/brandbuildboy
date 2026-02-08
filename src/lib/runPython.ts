@@ -11,10 +11,12 @@ export interface PythonRunResult {
 
 function getPythonCandidates(): string[] {
   const explicit = process.env.PYTHON_BIN?.trim();
-  if (explicit) return [explicit];
-  return process.platform === "win32"
-    ? ["python", "py", "python3"]
-    : ["python", "python3"];
+  const defaults =
+    process.platform === "win32"
+      ? ["python", "py", "python3"]
+      : ["python3", "python"];
+  if (!explicit) return defaults;
+  return Array.from(new Set([explicit, ...defaults]));
 }
 
 function runWithBin(bin: string, args: string[]): Promise<PythonRunResult | null> {
@@ -66,7 +68,6 @@ export async function runPythonCommand(args: string[]): Promise<PythonRunResult>
     if (result) return result;
   }
   throw new Error(
-    `No Python runtime found. Set PYTHON_BIN. Tried: ${candidates.join(", ")}`
+    `No Python runtime found. Tried: ${candidates.join(", ")}`
   );
 }
-
