@@ -2,6 +2,7 @@
 
 This app needs both Node.js (Next.js) and Python (agent pipeline).  
 `nixpacks.toml` is configured so Railway installs both runtimes and agent dependencies.
+If Railway is using Railpack, keep the root `requirements.txt` file so Python is auto-detected.
 
 ## 1) Create Railway service
 
