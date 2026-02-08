@@ -4,6 +4,7 @@ export interface BrandTheme {
   logoText: string;
   logoSrc?: string;
   logoAlt?: string;
+  logoHeightPx?: number;
   tagline: string;
   fonts: {
     body: string;
@@ -122,6 +123,96 @@ const BRAND_THEMES: Record<string, BrandTheme> = {
       footerCtaLabel: "Start Build",
     },
   },
+  vigilore: {
+    key: "vigilore",
+    name: "VigilOre",
+    logoText: "Intelligent Insight To Prevent Loss",
+    logoSrc: "/brands/vigilore-logo.png",
+    logoAlt: "VigilOre logo",
+    logoHeightPx: 18,
+    tagline: "Intelligent Insight To Prevent Loss",
+    fonts: {
+      body: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+      mono: "'IBM Plex Mono', Consolas, monospace",
+    },
+    colors: {
+      shell: "#2c2c2e",
+      topNavText: "#efe8dc",
+      topNavChipBg: "#efe8dc",
+      topNavChipText: "#2c2c2e",
+      topNavPrimaryBg: "#c65e28",
+      topNavPrimaryText: "#ffffff",
+      surface: "#f5f0e6",
+      surfaceText: "#2c2c2e",
+      surfaceMuted: "#5d5750",
+      line: "#8a7f71",
+      card: "#e8ddca",
+      actionBg: "#c65e28",
+      actionText: "#ffffff",
+      ctaBandStart: "#2c2c2e",
+      ctaBandEnd: "#3a8c94",
+      ctaBandText: "#efe8dc",
+      ctaButtonBg: "#3a8c94",
+      ctaButtonText: "#ffffff",
+      successDot: "#3a8c94",
+      danger: "#b13e21",
+    },
+    copy: {
+      readingsLabel: "Platform",
+      chaptersLabel: "Use Cases",
+      primaryCtaLabel: "Generate Brief",
+      bookCallLabel: "Request Pilot",
+      bookCallSubLabel: "Mining Compliance",
+      footerCtaLabel: "Generate Site",
+    },
+  },
+  armetor: {
+    key: "armetor",
+    name: "Armetor",
+    logoText: "Armetor | VigilOre",
+    logoSrc: "/brands/armetor-logo.jpg",
+    logoAlt: "Armetor logo",
+    logoHeightPx: 16,
+    tagline: "Armetor Security Intelligence",
+    fonts: {
+      body: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+      mono: "'IBM Plex Mono', Consolas, monospace",
+    },
+    colors: {
+      shell: "#7f8288",
+      topNavText: "#f1f1f2",
+      topNavChipBg: "#e2e3e6",
+      topNavChipText: "#4a4d53",
+      topNavPrimaryBg: "#b8922f",
+      topNavPrimaryText: "#ffffff",
+      surface: "#f5f5f2",
+      surfaceText: "#30333a",
+      surfaceMuted: "#5c6069",
+      line: "#9b9ea7",
+      card: "#e8e5dc",
+      actionBg: "#b8922f",
+      actionText: "#ffffff",
+      ctaBandStart: "#4c4f56",
+      ctaBandEnd: "#7f8288",
+      ctaBandText: "#ffffff",
+      ctaButtonBg: "#b8922f",
+      ctaButtonText: "#ffffff",
+      successDot: "#2b9a8f",
+      danger: "#9b2f33",
+    },
+    copy: {
+      readingsLabel: "Capabilities",
+      chaptersLabel: "Programs",
+      primaryCtaLabel: "Generate Brief",
+      bookCallLabel: "Request Briefing",
+      bookCallSubLabel: "Armetor Team",
+      footerCtaLabel: "Generate Site",
+    },
+  },
+};
+
+const BRAND_ALIASES: Record<string, string> = {
+  "vigil-ore": "vigilore",
 };
 
 function normalizeBrandKey(value: string | null | undefined): string {
@@ -133,13 +224,19 @@ function normalizeBrandKey(value: string | null | undefined): string {
     .replace(/^-|-$/g, "");
 }
 
+function resolveBrandKey(value: string | null | undefined): string {
+  const normalized = normalizeBrandKey(value);
+  if (BRAND_THEMES[normalized]) return normalized;
+  return BRAND_ALIASES[normalized] || normalized;
+}
+
 export function getBrandTheme(brandKey?: string | null): BrandTheme {
-  const key = normalizeBrandKey(brandKey);
+  const key = resolveBrandKey(brandKey);
   return BRAND_THEMES[key] || BRAND_THEMES.eduba;
 }
 
 export function hasBrandTheme(brandKey?: string | null): boolean {
-  const key = normalizeBrandKey(brandKey);
+  const key = resolveBrandKey(brandKey);
   return Boolean(BRAND_THEMES[key]);
 }
 

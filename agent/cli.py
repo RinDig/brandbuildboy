@@ -13,7 +13,9 @@ from agent.pipeline import (
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Generate and publish Eduba sector pages")
+    parser = argparse.ArgumentParser(
+        description="Generate and publish branded sector pages"
+    )
     parser.add_argument("--company", help="Company name")
     parser.add_argument("--sector", help="Target sector label")
     parser.add_argument("--slug", help="Custom slug (optional)")

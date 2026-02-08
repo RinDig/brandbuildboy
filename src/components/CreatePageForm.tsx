@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Layout } from "@/components/Layout";
 import styles from "@/app/create-page/page.module.scss";
+import { getBrandTheme } from "@/lib/brands";
 
 const defaultSector = "Enterprise";
 
@@ -10,17 +11,46 @@ interface CreatePageFormProps {
   brandKey?: string;
 }
 
+interface QuickFormDefaults {
+  companyName: string;
+  productName: string;
+  sectorLabel: string;
+  subtitle: string;
+  contextPlaceholder: string;
+}
+
+function getQuickFormDefaults(brand: string): QuickFormDefaults {
+  if (brand === "vigilore" || brand === "armetor") {
+    return {
+      companyName: "Armetor",
+      productName: "VigilOre",
+      sectorLabel: "Mining Compliance and Loss Prevention",
+      subtitle:
+        "Paste a meeting summary and optional website. We will generate a VigilOre-focused sector page aligned to Armetor positioning.",
+      contextPlaceholder:
+        "Example: Ministry meeting discussed rapid pilot in one mining region, focus on revenue recovery, audit cycle reduction, and dashboard visibility for regulators.",
+    };
+  }
+
+  return {
+    companyName: "",
+    productName: "",
+    sectorLabel: defaultSector,
+    subtitle:
+      "Paste a strong meeting summary and optional website. The agent will generate and publish a branded sector page.",
+    contextPlaceholder:
+      "Paste key discussion points, goals, constraints, and outcomes.",
+  };
+}
+
 export function CreatePageForm({ brandKey = "eduba" }: CreatePageFormProps) {
+  const brand = getBrandTheme(brandKey);
+  const defaults = getQuickFormDefaults(brand.key);
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [website, setWebsite] = useState("");
-  const [discovering, setDiscovering] = useState(false);
-  const [discoveryError, setDiscoveryError] = useState<string | null>(null);
-  const [discovered, setDiscovered] = useState<Record<string, string[]>>({});
-  const [selectedPaths, setSelectedPaths] = useState<Record<string, boolean>>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,13 +60,17 @@ export function CreatePageForm({ brandKey = "eduba" }: CreatePageFormProps) {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    formData.set("brand", brandKey);
+    formData.set("brand", brand.key);
 
-    Object.entries(selectedPaths).forEach(([url, selected]) => {
-      if (selected) {
-        formData.append("autoLink", url);
-      }
-    });
+    const productName = formData.get("product")?.toString().trim();
+    const context = formData.get("context")?.toString().trim() || "";
+    if (productName) {
+      const productContext = `Product focus: ${productName}`;
+      formData.set("context", context ? `${productContext}\n\n${context}` : productContext);
+    }
+
+    const sector = formData.get("sector")?.toString().trim();
+    formData.set("sector", sector || defaults.sectorLabel);
 
     try {
       const response = await fetch("/api/create-page", {
@@ -59,56 +93,22 @@ export function CreatePageForm({ brandKey = "eduba" }: CreatePageFormProps) {
     }
   };
 
-  const handleDiscover = async () => {
-    if (!website) return;
-    setDiscovering(true);
-    setDiscoveryError(null);
-    try {
-      const response = await fetch("/api/discover-site", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ website }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setDiscoveryError(data.error || "Failed to discover site paths");
-        setDiscovering(false);
-        return;
-      }
-      setDiscovered(data.categories || {});
-      setSelectedPaths({});
-    } catch (err) {
-      setDiscoveryError(
-        err instanceof Error ? err.message : "Unexpected discovery error"
-      );
-    } finally {
-      setDiscovering(false);
-    }
-  };
-
-  const togglePath = (url: string) => {
-    setSelectedPaths((prev) => ({ ...prev, [url]: !prev[url] }));
-  };
-
   return (
-    <Layout brandKey={brandKey}>
+    <Layout brandKey={brand.key}>
       <div className={styles.page}>
         <div className={styles.header}>
           <div className={styles.kicker}>CREATE PAGE</div>
-          <h1 className={styles.title}>Build a tailored sector page</h1>
-          <p className={styles.subtitle}>
-            Share company context, attach docs and links, and generate a
-            branded sector page for {brandKey}.
-          </p>
+          <h1 className={styles.title}>Build a branded page fast</h1>
+          <p className={styles.subtitle}>{defaults.subtitle}</p>
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <input type="hidden" name="brand" value={brandKey} />
+          <input type="hidden" name="brand" value={brand.key} />
           <div className={styles.section}>
             <div className={styles.sectionMeta}>
               <span>001</span>
               <span className={styles.sectionSlash}>/</span>
-              <span>DETAILS</span>
+              <span>CORE INPUTS</span>
             </div>
             <div className={styles.sectionBody}>
               <label className={styles.label}>
@@ -116,46 +116,35 @@ export function CreatePageForm({ brandKey = "eduba" }: CreatePageFormProps) {
                 <input
                   name="company"
                   className={styles.input}
-                  placeholder="Acme Aerospace"
+                  placeholder="Armetor"
+                  defaultValue={defaults.companyName}
                   required
                 />
               </label>
               <label className={styles.label}>
-                Company website (optional)
+                Product / solution name (optional)
+                <input
+                  name="product"
+                  className={styles.input}
+                  placeholder="VigilOre"
+                  defaultValue={defaults.productName}
+                />
+              </label>
+              <label className={styles.label}>
+                Company website (optional, enables quick web scrape)
                 <input
                   name="website"
                   className={styles.input}
-                  placeholder="https://acme.com"
-                  value={website}
-                  onChange={(event) => setWebsite(event.target.value)}
+                  placeholder="https://company.com"
                 />
               </label>
-              <div className={styles.row}>
-                <label className={styles.label}>
-                  Sector label
-                  <input
-                    name="sector"
-                    className={styles.input}
-                    defaultValue={defaultSector}
-                    placeholder="Enterprise"
-                    required
-                  />
-                </label>
-                <label className={styles.label}>
-                  Custom slug (optional)
-                  <input
-                    name="slug"
-                    className={styles.input}
-                    placeholder="acme-aerospace"
-                  />
-                </label>
-              </div>
               <label className={styles.label}>
-                Conversation/context summary
+                Meeting summary / prompt
                 <textarea
                   name="context"
                   className={styles.textarea}
-                  placeholder="Paste notes, goals, constraints, and outcomes."
+                  placeholder={defaults.contextPlaceholder}
+                  required
                 />
               </label>
             </div>
@@ -165,73 +154,63 @@ export function CreatePageForm({ brandKey = "eduba" }: CreatePageFormProps) {
             <div className={styles.sectionMeta}>
               <span>002</span>
               <span className={styles.sectionSlash}>/</span>
-              <span>SOURCES</span>
+              <span>ADVANCED (OPTIONAL)</span>
             </div>
             <div className={styles.sectionBody}>
-              <div className={styles.discoveryRow}>
-                <div className={styles.checkboxLabel}>Auto-pull discovery</div>
-                <button
-                  type="button"
-                  className={styles.discoverButton}
-                  onClick={handleDiscover}
-                  disabled={!website || discovering}
-                >
-                  {discovering ? "Discovering..." : "Discover Paths"}
-                </button>
-              </div>
-              {discoveryError && (
-                <div className={styles.discoveryError}>{discoveryError}</div>
-              )}
-              {Object.keys(discovered).length > 0 && (
-                <div className={styles.discoveryGrid}>
-                  {Object.entries(discovered).map(([category, urls]) => (
-                    <div key={category} className={styles.discoveryGroup}>
-                      <div className={styles.discoveryTitle}>{category}</div>
-                      {urls.length === 0 && (
-                        <div className={styles.discoveryEmpty}>No links found.</div>
-                      )}
-                      {urls.map((url) => (
-                        <label key={url} className={styles.checkboxItem}>
-                          <input
-                            type="checkbox"
-                            checked={Boolean(selectedPaths[url])}
-                            onChange={() => togglePath(url)}
-                          />
-                          <span>{url}</span>
-                        </label>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              )}
-              <label className={styles.label}>
-                Attach documents
-                <input
-                  type="file"
-                  name="documents"
-                  className={styles.fileInput}
-                  multiple
-                  accept=".pdf,.docx,.txt,.md"
-                />
-              </label>
-              <label className={styles.label}>
-                Links (one per line)
-                <textarea
-                  name="links"
-                  className={styles.textarea}
-                  placeholder="https://example.com/case-study"
-                />
-              </label>
-              <label className={styles.label}>
-                Exclude URLs or keywords (one per line)
-                <textarea
-                  name="exclude"
-                  className={styles.textarea}
-                  placeholder={`careers
+              <details className={styles.advancedDetails}>
+                <summary className={styles.advancedSummary}>
+                  Expand advanced controls
+                </summary>
+                <div className={styles.advancedBody}>
+                  <div className={styles.row}>
+                    <label className={styles.label}>
+                      Sector label
+                      <input
+                        name="sector"
+                        className={styles.input}
+                        defaultValue={defaults.sectorLabel}
+                        placeholder="Mining Compliance and Loss Prevention"
+                      />
+                    </label>
+                    <label className={styles.label}>
+                      Custom slug (optional)
+                      <input
+                        name="slug"
+                        className={styles.input}
+                        placeholder="vigilore-national-rollout"
+                      />
+                    </label>
+                  </div>
+                  <label className={styles.label}>
+                    Attach supporting documents
+                    <input
+                      type="file"
+                      name="documents"
+                      className={styles.fileInput}
+                      multiple
+                      accept=".pdf,.docx,.txt,.md"
+                    />
+                  </label>
+                  <label className={styles.label}>
+                    Links (one per line)
+                    <textarea
+                      name="links"
+                      className={styles.textarea}
+                      placeholder="https://example.com/case-study"
+                    />
+                  </label>
+                  <label className={styles.label}>
+                    Exclude URLs or keywords (one per line)
+                    <textarea
+                      name="exclude"
+                      className={styles.textarea}
+                      placeholder={`careers
 press
 https://example.com/old-post`}
-                />
-              </label>
+                    />
+                  </label>
+                </div>
+              </details>
             </div>
           </div>
 

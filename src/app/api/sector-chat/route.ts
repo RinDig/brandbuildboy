@@ -1,19 +1,11 @@
 import { NextResponse } from "next/server";
-import { spawn } from "child_process";
 import { promises as fs } from "fs";
 import os from "os";
 import path from "path";
+import { runPythonCommand } from "@/lib/runPython";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-function collectOutput(stream: NodeJS.ReadableStream) {
-  let data = "";
-  stream.on("data", (chunk) => {
-    data += chunk.toString();
-  });
-  return () => data;
-}
 
 function parseLinks(raw: string | null) {
   if (!raw) return [];
@@ -94,22 +86,7 @@ export async function POST(request: Request) {
       args.push("--link", link)
     );
 
-    const pythonBin =
-      process.env.PYTHON_BIN || (process.platform === "win32" ? "python" : "python3");
-    const child = spawn(pythonBin, args, {
-      cwd: process.cwd(),
-      env: process.env,
-    });
-
-    const getStdout = collectOutput(child.stdout);
-    const getStderr = collectOutput(child.stderr);
-
-    const exitCode: number = await new Promise((resolve) => {
-      child.on("close", resolve);
-    });
-
-    const stdout = getStdout();
-    const stderr = getStderr();
+    const { exitCode, stdout, stderr } = await runPythonCommand(args);
 
     if (exitCode !== 0) {
       return NextResponse.json(

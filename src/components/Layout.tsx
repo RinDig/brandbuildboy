@@ -12,6 +12,9 @@ interface LayoutProps {
 
 export function Layout({ children, brandKey }: LayoutProps) {
   const brand = getBrandTheme(brandKey);
+  const homeHref = brand.key === "eduba" ? "/" : `/${brand.key}`;
+  const createPageHref =
+    brand.key === "eduba" ? "/create-page" : `/${brand.key}/create-page`;
   const themeVars: CSSProperties & Record<string, string> = {
     "--brand-shell": brand.colors.shell,
     "--brand-top-nav-text": brand.colors.topNavText,
@@ -41,8 +44,11 @@ export function Layout({ children, brandKey }: LayoutProps) {
     <div className={styles.frame} style={themeVars} data-brand={brand.key}>
       {/* Top Navigation */}
       <nav className={styles.topNav}>
-        <div className={styles.logoSection}>
-          <div className={styles.logoIcon}>
+        <a href={homeHref} className={styles.logoSection}>
+          <div
+            className={styles.logoIcon}
+            style={brand.logoHeightPx ? { height: `${brand.logoHeightPx}px` } : undefined}
+          >
             {brand.logoSrc ? (
               <img src={brand.logoSrc} alt={brand.logoAlt || brand.name} />
             ) : (
@@ -63,7 +69,7 @@ export function Layout({ children, brandKey }: LayoutProps) {
             )}
           </div>
           <span className={styles.logoText}>{brand.tagline}</span>
-        </div>
+        </a>
         <div className={styles.navLinks}>
           <a href="#" className={styles.readingsLink}>
             {brand.copy.readingsLabel}
@@ -150,10 +156,10 @@ export function Layout({ children, brandKey }: LayoutProps) {
             </svg>
             <span>{brand.copy.chaptersLabel}</span>
           </button>
-          <button className={styles.navButtonPrimary}>
+          <a href={createPageHref} className={styles.navButtonPrimary}>
             <span className={styles.dot}></span>
             <span>{brand.copy.primaryCtaLabel}</span>
-          </button>
+          </a>
         </div>
         <div className={styles.navArrowLeft}>
           <ArrowCorner color="var(--brand-line)" />

@@ -31,6 +31,8 @@ npm run dev
 - Branded home: `/{brand}`
 - Branded create page: `/{brand}/create-page`
 - Branded sector page: `/{brand}/{slug}`
+- VigilOre quick-create path: `/vigilore/create-page`
+- Armetor quick-create path: `/armetor/create-page`
 
 ## Deploying on Railway
 

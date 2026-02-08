@@ -23,6 +23,42 @@ BRAND_PROFILE_NOTES: dict[str, str] = {
         "Enterprise-modern advisory voice. Clear and professional, slightly formal, "
         "with emphasis on reliable delivery, governance, and executive readability."
     ),
+    "vigilore": (
+        "Mining-sector operational risk and compliance voice. Grounded, precise, and "
+        "execution-focused language centered on loss prevention, regulatory audit rigor, "
+        "and revenue protection outcomes."
+    ),
+    "armetor": (
+        "Executive mining-governance and security modernization voice. Professional and "
+        "clear language for ministries, regulators, and operators, with VigilOre framed "
+        "as the operational platform."
+    ),
+}
+
+BRAND_POSITIONING_SUMMARY: dict[str, str] = {
+    "eduba": (
+        "- Build working AI pipelines, not slide decks.\n"
+        "- Transfer orchestration capability and IP to client teams.\n"
+        "- Include governance, evaluation harnesses, and human-in-the-loop controls.\n"
+        "- Focus on reliable multi-model systems with fallback behavior."
+    ),
+    "pilot": (
+        "- Deliver enterprise AI programs with explicit governance and controls.\n"
+        "- Prioritize operational clarity and measurable adoption milestones.\n"
+        "- Use pilot-to-production pathways with risk-managed delivery."
+    ),
+    "vigilore": (
+        "- Deliver AI-powered mining compliance and security assessments.\n"
+        "- Emphasize loss prevention, risk scoring, and revenue protection.\n"
+        "- Highlight rapid deployment, audit-cycle reduction, and centralized oversight.\n"
+        "- Frame outcomes for regulators, ministries, and mine operators."
+    ),
+    "armetor": (
+        "- Position Armetor as the implementation and governance partner.\n"
+        "- Present VigilOre as the core platform for mining compliance and loss prevention.\n"
+        "- Emphasize faster audits, transparent oversight, and revenue protection outcomes.\n"
+        "- Keep claims operational and regulator-ready."
+    ),
 }
 
 
@@ -46,6 +82,16 @@ def brand_profile_text(brand_key: str) -> str:
     return BRAND_PROFILE_NOTES.get(
         brand_key,
         "Use a neutral professional B2B tone, grounded and measurable.",
+    )
+
+
+def brand_positioning_text(brand_key: str) -> str:
+    return BRAND_POSITIONING_SUMMARY.get(
+        brand_key,
+        (
+            "- Deliver practical, measurable outcomes over generic messaging.\n"
+            "- Keep claims specific and operationally grounded."
+        ),
     )
 
 
@@ -114,6 +160,7 @@ def generate_sector_payload(agent_input: AgentInput, settings: Settings) -> dict
     prompt = USER_PROMPT_TEMPLATE.format(
         brand_key=brand_key,
         brand_profile=brand_profile_text(brand_key),
+        positioning_summary=brand_positioning_text(brand_key),
         company_name=agent_input.company_name,
         sector_label=agent_input.sector_label,
         slug=slug,

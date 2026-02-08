@@ -26,6 +26,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  color: inherit;
+  text-decoration: none;
 }
 
 .logoIcon {
@@ -63,6 +65,8 @@
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
+  color: inherit;
+  text-decoration: none;
   transition: opacity $transition-fast;
 
   &:hover {
@@ -120,6 +124,7 @@
   align-items: center;
   background-color: var(--brand-top-nav-primary-bg, black);
   color: var(--brand-top-nav-primary-text, white);
+  text-decoration: none;
   gap: 8px;
 
   .dot {

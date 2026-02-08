@@ -70,6 +70,35 @@
   gap: 16px;
 }
 
+.advancedDetails {
+  border: 1px dashed color-mix(in srgb, var(--brand-surface-text, $dark-brown) 25%, transparent);
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--brand-surface, $white) 65%, transparent);
+}
+
+.advancedSummary {
+  cursor: pointer;
+  font-family: var(--brand-font-mono, $font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 80%, transparent);
+  user-select: none;
+}
+
+.advancedSummary::-webkit-details-marker {
+  display: none;
+}
+
+.advancedBody {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .label {
   display: flex;
   flex-direction: column;
