@@ -27,6 +27,10 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const company = formData.get("company")?.toString().trim();
   const sector = formData.get("sector")?.toString().trim();
+  const brand = (formData.get("brand")?.toString().trim().toLowerCase() || "eduba")
+    .replace(/[^a-z0-9-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "") || "eduba";
   const slug = formData.get("slug")?.toString().trim();
   const website = formData.get("website")?.toString().trim();
   const context = formData.get("context")?.toString().trim() || "";
@@ -66,6 +70,8 @@ export async function POST(request: Request) {
       company,
       "--sector",
       sector,
+      "--brand",
+      brand,
       "--context",
       context,
     ];
@@ -86,7 +92,8 @@ export async function POST(request: Request) {
       args.push("--link", link)
     );
 
-    const pythonBin = process.env.PYTHON_BIN || "python3";
+    const pythonBin =
+      process.env.PYTHON_BIN || (process.platform === "win32" ? "python" : "python3");
     const child = spawn(pythonBin, args, {
       cwd: process.cwd(),
       env: process.env,

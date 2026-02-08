@@ -1,11 +1,11 @@
 @use "../styles/variables" as *;
 
 .page {
-  --line-color: #a2777a;
-  background-color: $white;
-  color: $brown;
+  --line-color: var(--brand-line, #a2777a);
+  background-color: var(--brand-surface, $white);
+  color: var(--brand-surface-text, $brown);
   min-height: 100%;
-  font-family: $font-primary;
+  font-family: var(--brand-font-body, $font-primary);
   overflow-x: hidden;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .pageIndex {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   letter-spacing: 0.2em;
   font-weight: 700;
@@ -33,7 +33,7 @@
 }
 
 .pageTag {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   letter-spacing: 0.1em;
   font-weight: 700;
@@ -60,7 +60,7 @@
   line-height: 1.6;
   max-width: 560px;
   font-weight: 300;
-  color: $subtitle;
+  color: var(--brand-surface-muted, $subtitle);
 }
 
 .heroActions {
@@ -74,11 +74,11 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background-color: $brown;
-  color: $white;
+  background-color: var(--brand-action-bg, $brown);
+  color: var(--brand-action-text, $white);
   padding: 12px 24px;
   border-radius: 0px 0px 6px 6px;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 14px;
   // letter-spacing: 0.18em;
   margin-top: -2px;
@@ -104,7 +104,7 @@
   align-items: center;
   justify-content: end;
   gap: 10px;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   font-weight: 600;
   // letter-spacing: 0.2em;
@@ -134,7 +134,7 @@
   display: flex;
   align-items: baseline;
   gap: 10px;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-weight: 700;
   font-size: 16px;
   // letter-spacing: 0.2em;
@@ -172,7 +172,7 @@
 .sectionText {
   font-size: 14px;
   line-height: 1.6;
-  color: $subtitle;
+  color: var(--brand-surface-muted, $subtitle);
   max-width: 640px;
 }
 
@@ -186,7 +186,7 @@
 }
 
 .card {
-  background-color: #ebdfd2;
+  background-color: var(--brand-card, #ebdfd2);
   // border: 1px solid rgba($dark-brown, 0.15);
   border-radius: 3px;
   // padding: 16px;
@@ -198,14 +198,14 @@
 }
 
 .cardId {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   padding: 12px 16px 16px 16px;
   text-align: right;
-  color: rgba($dark-brown, 1);
-  border-bottom: 1px dashed $dark-brown;
+  color: var(--brand-surface-text, rgba($dark-brown, 1));
+  border-bottom: 1px dashed var(--brand-surface-text, $dark-brown);
   padding-bottom: 8px;
   font-weight: 700;
 }
@@ -221,7 +221,7 @@
 .cardBody {
   font-size: 12.5px;
   line-height: 1.6;
-  color: $subtitle;
+  color: var(--brand-surface-muted, $subtitle);
   text-indent: 30px;
   padding: 16px;
 }
@@ -238,7 +238,7 @@
 }
 
 .listIndex {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 12px;
   letter-spacing: 0.1em;
   font-weight: 600;
@@ -246,7 +246,7 @@
 }
 
 .listTitle {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 12px;
   letter-spacing: 0.1em;
   font-weight: 600;
@@ -257,7 +257,7 @@
 .listDescription {
   font-size: 14px;
   line-height: 1.6;
-  color: $subtitle;
+  color: var(--brand-surface-muted, $subtitle);
   max-width: 420px;
 }
 
@@ -277,11 +277,15 @@
 }
 
 .servicePrice {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 12px;
   flex: 200;
   text-transform: uppercase;
-  color: rgba($dark-brown, 0.6);
+  color: color-mix(
+    in srgb,
+    var(--brand-surface-text, $dark-brown) 60%,
+    transparent
+  );
   margin-top: -16px;
   padding: 0px 16px;
   font-weight: 500;
@@ -316,14 +320,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  font-family: $font-primary;
+  font-family: var(--brand-font-body, $font-primary);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: lowercase;
   cursor: pointer;
   text-align: left;
-  color: $dark-brown;
+  color: var(--brand-surface-text, $dark-brown);
 }
 
 .faqIcon {
@@ -337,7 +341,7 @@
 .faqIcon::after {
   content: "";
   position: absolute;
-  background-color: $dark-brown;
+  background-color: var(--brand-surface-text, $dark-brown);
   border-radius: 1px;
 }
 
@@ -373,14 +377,22 @@
 .faqAnswer {
   font-size: 13px;
   line-height: 1.6;
-  color: rgba($dark-brown, 0.75);
+  color: color-mix(
+    in srgb,
+    var(--brand-surface-text, $dark-brown) 75%,
+    transparent
+  );
   max-width: 640px;
 }
 
 .ctaBand {
   margin-top: 40px;
-  background: $brown-gradient;
-  color: $white;
+  background: linear-gradient(
+    358deg,
+    var(--brand-cta-band-start, #492526) 1.79%,
+    var(--brand-cta-band-end, #5d4143) 97.65%
+  );
+  color: var(--brand-cta-band-text, $white);
   border-radius: 8px;
   padding: 36px 32px;
   display: grid;
@@ -389,11 +401,15 @@
 }
 
 .ctaLabel {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba($white, 0.75);
+  color: color-mix(
+    in srgb,
+    var(--brand-cta-band-text, $white) 75%,
+    transparent
+  );
   font-weight: 600;
 }
 
@@ -413,11 +429,11 @@
 }
 
 .ctaButton {
-  background-color: $white;
-  color: $dark-brown;
+  background-color: var(--brand-cta-button-bg, $white);
+  color: var(--brand-cta-button-text, $dark-brown);
   padding: 12px 22px;
   border-radius: 3px;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   letter-spacing: 0.18em;
   font-weight: 600;
@@ -464,12 +480,12 @@
   height: calc(100% + 6px);
   background: linear-gradient(
     45deg,
-    #f3c3c5,
-    #d8bfc0,
-    #ead5d6,
-    #f9ecdf,
-    #d8bfc0,
-    #f3c3c5
+    var(--brand-line, #f3c3c5),
+    var(--brand-card, #d8bfc0),
+    var(--brand-top-nav-chip-bg, #ead5d6),
+    var(--brand-surface, #f9ecdf),
+    var(--brand-card, #d8bfc0),
+    var(--brand-line, #f3c3c5)
   );
   background-size: 300% 300%;
   opacity: 0;

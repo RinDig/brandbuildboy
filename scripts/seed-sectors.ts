@@ -65,6 +65,7 @@ function toSectorDoc(sector: (typeof fallbackSectors)[number]) {
   return {
     _id: `sector-${sector.slug}`,
     _type: "sector",
+    brand: "eduba",
     title: sector.title,
     slug: { current: sector.slug },
     pageIndex: sector.pageIndex,

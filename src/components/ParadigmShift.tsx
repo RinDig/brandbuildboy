@@ -42,7 +42,7 @@ const industries = [
   },
 ];
 
-export function ParadigmShift() {
+export function ParadigmShift({ brandKey = "eduba" }: { brandKey?: string }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(2);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -219,7 +219,11 @@ export function ParadigmShift() {
                   </p>
                   <Link
                     className={styles.ctaButton}
-                    href={`/sectors/${industry.slug}`}
+                    href={
+                      brandKey === "eduba"
+                        ? `/sectors/${industry.slug}`
+                        : `/${brandKey}/${industry.slug}`
+                    }
                   >
                     {industry.cta}
                   </Link>

@@ -23,7 +23,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const pythonBin = process.env.PYTHON_BIN || "python3";
+  const pythonBin =
+    process.env.PYTHON_BIN || (process.platform === "win32" ? "python" : "python3");
   const child = spawn(
     pythonBin,
     ["-m", "agent.discover_cli", "--website", website],

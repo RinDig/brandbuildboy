@@ -43,3 +43,8 @@ next-env.d.ts
 .claude
 
 agent/__pycache__
+.venv/
+
+# local session notes
+/.local-notes/
+

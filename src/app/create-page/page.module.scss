@@ -1,25 +1,25 @@
 @use "../../styles/variables" as *;
 
 .page {
-  background-color: $skin;
-  color: $dark-brown;
+  background-color: var(--brand-surface, $skin);
+  color: var(--brand-surface-text, $dark-brown);
   min-height: 100%;
   padding: 40px 48px 80px;
-  font-family: $font-primary;
+  font-family: var(--brand-font-body, $font-primary);
 }
 
 .header {
-  border-bottom: 1px dashed rgba($dark-brown, 0.25);
+  border-bottom: 1px dashed color-mix(in srgb, var(--brand-surface-text, $dark-brown) 25%, transparent);
   padding-bottom: 28px;
   margin-bottom: 32px;
 }
 
 .kicker {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba($dark-brown, 0.7);
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 70%, transparent);
 }
 
 .title {
@@ -32,7 +32,7 @@
   font-size: 15px;
   line-height: 1.6;
   max-width: 640px;
-  color: rgba($dark-brown, 0.8);
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 80%, transparent);
 }
 
 .form {
@@ -46,11 +46,11 @@
   grid-template-columns: 160px 1fr;
   gap: 32px;
   padding: 28px 0;
-  border-bottom: 1px dashed rgba($dark-brown, 0.25);
+  border-bottom: 1px dashed color-mix(in srgb, var(--brand-surface-text, $dark-brown) 25%, transparent);
 }
 
 .sectionMeta {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -77,7 +77,7 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
 }
 
 .checkboxGroup {
@@ -85,14 +85,14 @@
   flex-wrap: wrap;
   gap: 14px 18px;
   align-items: center;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
 .checkboxLabel {
-  color: rgba($dark-brown, 0.7);
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 70%, transparent);
   margin-right: 8px;
 }
 
@@ -102,7 +102,7 @@
   gap: 8px;
   font-weight: 600;
   cursor: pointer;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   letter-spacing: -0.03em;
   font-size: 12px;
 }
@@ -112,8 +112,8 @@
   width: 18px;
   height: 18px;
   border-radius: 4px;
-  border: 1px solid rgba($dark-brown, 0.35);
-  background: $white;
+  border: 1px solid color-mix(in srgb, var(--brand-surface-text, $dark-brown) 35%, transparent);
+  background: var(--brand-surface, $white);
   display: grid;
   place-items: center;
   transition: background 0.2s ease, border-color 0.2s ease,
@@ -124,17 +124,17 @@
   content: "";
   width: 6px;
   height: 10px;
-  border-right: 2px solid $skin;
-  border-bottom: 2px solid $skin;
+  border-right: 2px solid var(--brand-surface, $skin);
+  border-bottom: 2px solid var(--brand-surface, $skin);
   transform: rotate(45deg);
   opacity: 0;
   transition: opacity 0.2s ease;
 }
 
 .checkboxItem input:checked {
-  background: $dark-brown;
-  border-color: $dark-brown;
-  box-shadow: 0 6px 12px rgba($dark-brown, 0.2);
+  background: var(--brand-action-bg, $dark-brown);
+  border-color: var(--brand-action-bg, $dark-brown);
+  box-shadow: 0 6px 12px color-mix(in srgb, var(--brand-action-bg, $dark-brown) 20%, transparent);
 }
 
 .checkboxItem input:checked::after {
@@ -148,12 +148,12 @@
 }
 
 .discoverButton {
-  border: 1px solid rgba($dark-brown, 0.3);
-  background: $white;
-  color: $dark-brown;
+  border: 1px solid color-mix(in srgb, var(--brand-surface-text, $dark-brown) 30%, transparent);
+  background: var(--brand-surface, $white);
+  color: var(--brand-surface-text, $dark-brown);
   padding: 8px 16px;
   border-radius: 6px;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -167,12 +167,12 @@
 }
 
 .discoverButton:not(:disabled):hover {
-  background: $dark-brown;
-  color: $white;
+  background: var(--brand-action-bg, $dark-brown);
+  color: var(--brand-action-text, $white);
 }
 
 .discoveryError {
-  color: #9b2f33;
+  color: var(--brand-danger, #9b2f33);
   font-weight: 600;
 }
 
@@ -180,10 +180,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
-  border: 1px dashed rgba($dark-brown, 0.2);
+  border: 1px dashed color-mix(in srgb, var(--brand-surface-text, $dark-brown) 20%, transparent);
   padding: 16px;
   border-radius: 8px;
-  background: rgba($white, 0.6);
+  background: color-mix(in srgb, var(--brand-surface, $white) 60%, transparent);
 }
 
 .discoveryGroup {
@@ -193,28 +193,28 @@
 }
 
 .discoveryTitle {
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: rgba($dark-brown, 0.7);
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 70%, transparent);
 }
 
 .discoveryEmpty {
   font-size: 12px;
-  color: rgba($dark-brown, 0.6);
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 60%, transparent);
 }
 
 .input,
 .textarea,
 .fileInput {
-  border: 1px solid rgba($dark-brown, 0.2);
-  background: $white;
+  border: 1px solid color-mix(in srgb, var(--brand-surface-text, $dark-brown) 20%, transparent);
+  background: var(--brand-surface, $white);
   padding: 12px 14px;
   border-radius: 6px;
-  font-family: $font-primary;
+  font-family: var(--brand-font-body, $font-primary);
   font-size: 14px;
-  color: $dark-brown;
+  color: var(--brand-surface-text, $dark-brown);
 }
 
 .textarea {
@@ -236,11 +236,11 @@
 }
 
 .submitButton {
-  background-color: $dark-brown;
-  color: $white;
+  background-color: var(--brand-action-bg, $dark-brown);
+  color: var(--brand-action-text, $white);
   padding: 14px 28px;
   border-radius: 6px;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -257,12 +257,12 @@
 
 .submitButton:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba($dark-brown, 0.2);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--brand-action-bg, $dark-brown) 20%, transparent);
 }
 
 .helper {
   font-size: 12px;
-  color: rgba($dark-brown, 0.7);
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 70%, transparent);
   max-width: 420px;
 }
 
@@ -270,27 +270,27 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: $font-mono;
+  font-family: var(--brand-font-mono, $font-mono);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 11px;
 }
 
 .resultLabel {
-  color: rgba($dark-brown, 0.6);
+  color: color-mix(in srgb, var(--brand-surface-text, $dark-brown) 60%, transparent);
 }
 
 .resultLink {
-  font-family: $font-primary;
+  font-family: var(--brand-font-body, $font-primary);
   text-transform: none;
   letter-spacing: 0;
   font-size: 14px;
-  color: $dark-brown;
+  color: var(--brand-surface-text, $dark-brown);
   text-decoration: underline;
 }
 
 .error {
-  color: #9b2f33;
+  color: var(--brand-danger, #9b2f33);
   font-weight: 600;
 }
 

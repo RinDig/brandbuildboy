@@ -1,15 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import styles from "./page.module.scss";
+import styles from "@/app/create-page/page.module.scss";
 
 interface ChatFormProps {
   slug: string;
   title: string;
   pageTag: string;
+  brandKey?: string;
 }
 
-export function ChatForm({ slug, title, pageTag }: ChatFormProps) {
+export function ChatForm({
+  slug,
+  title,
+  pageTag,
+  brandKey = "eduba",
+}: ChatFormProps) {
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -30,6 +36,7 @@ export function ChatForm({ slug, title, pageTag }: ChatFormProps) {
     const form = event.currentTarget;
     const formData = new FormData(form);
     formData.set("slug", slug);
+    formData.set("brand", brandKey);
 
     selectedPaths &&
       Object.entries(selectedPaths).forEach(([url, selected]) => {
@@ -102,6 +109,7 @@ export function ChatForm({ slug, title, pageTag }: ChatFormProps) {
       </div>
 
       <form className={styles.form} onSubmit={handleSubmit}>
+        <input type="hidden" name="brand" value={brandKey} />
         <input type="hidden" name="sector" value={title} />
         <div className={styles.section}>
           <div className={styles.sectionMeta}>

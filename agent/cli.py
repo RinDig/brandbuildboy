@@ -17,6 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--company", help="Company name")
     parser.add_argument("--sector", help="Target sector label")
     parser.add_argument("--slug", help="Custom slug (optional)")
+    parser.add_argument("--brand", default="eduba", help="Brand key (default: eduba)")
     parser.add_argument("--context", default="", help="Chat/context summary")
     parser.add_argument("--doc", action="append", default=[], help="Path to document")
     parser.add_argument("--link", action="append", default=[], help="Source link")
@@ -52,6 +53,7 @@ def main() -> None:
     if args.edit_slug:
         edit_input = EditInput(
             slug=args.edit_slug,
+            brand_key=args.brand,
             sector_label=args.sector or "",
             instructions=args.instructions or args.context,
             context=args.context,
@@ -69,6 +71,7 @@ def main() -> None:
             company_name=args.company,
             sector_label=args.sector,
             slug=args.slug,
+            brand_key=args.brand,
             context=args.context,
             files=args.doc,
             links=args.link,

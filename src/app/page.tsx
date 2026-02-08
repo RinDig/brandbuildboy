@@ -1,22 +1,5 @@
-import { Layout } from "@/components/Layout";
-import { HeroSection } from "@/components/HeroSection";
-import { ThreeWheelStrategy } from "@/components/ThreeWheelStrategy";
-import { Services } from "@/components/Services";
-import { ParadigmShift } from "@/components/ParadigmShift";
-import { Works } from "@/components/Works";
-import { Reviews } from "@/components/Reviews";
-import { Team } from "@/components/Team";
+import { HomeContent } from "@/components/HomeContent";
 
 export default function Home() {
-  return (
-    <Layout>
-      <HeroSection />
-      <ThreeWheelStrategy />
-      <Services />
-      <Works />
-      <Reviews />
-      <ParadigmShift />
-      <Team />
-    </Layout>
-  );
+  return <HomeContent brandKey="eduba" />;
 }

@@ -11,11 +11,26 @@ def fetch_sector_slugs(
     dataset: str,
     api_version: str,
     token: str,
+    brand: str,
 ) -> list[str]:
-    query = '*[_type == "sector"]|order(_createdAt asc){ "slug": slug.current }'
+    if brand == "eduba":
+        query = (
+            '*[_type == "sector" && (!defined(brand) || brand == $brand)]'
+            '|order(_createdAt asc){ "slug": slug.current }'
+        )
+    else:
+        query = (
+            '*[_type == "sector" && brand == $brand]'
+            '|order(_createdAt asc){ "slug": slug.current }'
+        )
     url = f"https://{project_id}.api.sanity.io/v{api_version}/data/query/{dataset}"
     headers = {"Authorization": f"Bearer {token}"}
-    response = requests.get(url, headers=headers, params={"query": query}, timeout=30)
+    response = requests.get(
+        url,
+        headers=headers,
+        params={"query": query, "$brand": f"\"{brand}\""},
+        timeout=30,
+    )
     if not response.ok:
         raise RuntimeError(
             f"Sanity query failed: {response.status_code} {response.text}"
@@ -31,30 +46,56 @@ def fetch_sector_by_slug(
     api_version: str,
     token: str,
     slug: str,
+    brand: str,
 ) -> dict | None:
-    query = (
-        '*[_type == "sector" && slug.current == $slug][0]'
-        '{'
-        '"slug": slug.current,'
-        'title,'
-        'pageIndex,'
-        'pageTag,'
-        'hero,'
-        'consulting,'
-        'whyUs,'
-        'services,'
-        'methodology,'
-        'engagement,'
-        'faq,'
-        'cta'
-        '}'
-    )
+    if brand == "eduba":
+        query = (
+            '*[_type == "sector" && slug.current == $slug && (!defined(brand) || brand == $brand)][0]'
+            '{'
+            '"brand": coalesce(brand, "eduba"),'
+            '"slug": slug.current,'
+            'title,'
+            'pageIndex,'
+            'pageTag,'
+            'hero,'
+            'consulting,'
+            'whyUs,'
+            'services,'
+            'methodology,'
+            'engagement,'
+            'faq,'
+            'cta'
+            '}'
+        )
+    else:
+        query = (
+            '*[_type == "sector" && slug.current == $slug && brand == $brand][0]'
+            '{'
+            '"brand": coalesce(brand, "eduba"),'
+            '"slug": slug.current,'
+            'title,'
+            'pageIndex,'
+            'pageTag,'
+            'hero,'
+            'consulting,'
+            'whyUs,'
+            'services,'
+            'methodology,'
+            'engagement,'
+            'faq,'
+            'cta'
+            '}'
+        )
     url = f"https://{project_id}.api.sanity.io/v{api_version}/data/query/{dataset}"
     headers = {"Authorization": f"Bearer {token}"}
     response = requests.get(
         url,
         headers=headers,
-        params={"query": query, "$slug": f"\"{slug}\""},
+        params={
+            "query": query,
+            "$slug": f"\"{slug}\"",
+            "$brand": f"\"{brand}\"",
+        },
         timeout=30,
     )
     if not response.ok:

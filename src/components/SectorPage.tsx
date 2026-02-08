@@ -146,7 +146,7 @@ export function SectorPage({ sector }: SectorPageProps) {
         <div className={styles.heroActions}>
           <a className={styles.primaryButton} href={sector.hero.ctaHref}>
             {sector.hero.ctaLabel}
-            <span className={styles.primaryButtonArrow}>→</span>
+            <span className={styles.primaryButtonArrow}>&rarr;</span>
           </a>
           <div className={styles.explore}>
             <span className={styles.exploreSlash}>/</span>
@@ -308,7 +308,7 @@ export function SectorPage({ sector }: SectorPageProps) {
             <h2 className={styles.ctaTitle}>{sector.cta.title}</h2>
             <a className={styles.ctaButton} href={sector.cta.buttonHref}>
               {sector.cta.buttonLabel}
-              <span>→</span>
+              <span>&rarr;</span>
             </a>
           </div>
         </div>
@@ -316,3 +316,4 @@ export function SectorPage({ sector }: SectorPageProps) {
     </div>
   );
 }
+

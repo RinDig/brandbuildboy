@@ -1,4 +1,5 @@
 export interface Sector {
+  brand?: string;
   slug: string;
   title: string;
   pageIndex: string;

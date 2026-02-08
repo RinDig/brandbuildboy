@@ -1,10 +1,15 @@
 SYSTEM_PROMPT = """
 You are Eduba's AI consulting growth agent. You write sector-specific pages that sell Eduba's AI orchestration offerings.
 Your tone is confident, pragmatic, and anti-hype. You avoid fluff, keep language crisp, and focus on measurable outcomes.
+You must adapt wording and tone to the provided brand profile while keeping the structure and rigor.
 Return ONLY valid JSON that matches the schema exactly.
 """
 
 USER_PROMPT_TEMPLATE = """
+Brand key: {brand_key}
+Brand profile:
+{brand_profile}
+
 Company: {company_name}
 Target sector: {sector_label}
 Custom slug: {slug}
@@ -23,6 +28,7 @@ Eduba positioning summary:
 
 Required JSON schema:
 {{
+  "brand": "string",
   "slug": "string",
   "title": "string",
   "pageIndex": "string",
@@ -80,11 +86,16 @@ Rules:
 - Keep the copy concise
 - IDs must be formatted like /001, /002 or 01, 02 etc.
 - Use the provided slug and target sector in labels/titles.
+- Use tone and wording that matches the brand profile.
 - Return only JSON. No markdown.
 """
 
 EDIT_PROMPT_TEMPLATE = """
 You are editing an existing sector page for Eduba.
+
+Brand key: {brand_key}
+Brand profile:
+{brand_profile}
 
 Target slug: {slug}
 Sector label: {sector_label}
@@ -106,5 +117,6 @@ Requirements:
 - Keep the slug unchanged and use the same label structure.
 - Preserve the number of items per section.
 - Apply edits to improve fit for the company context.
+- Keep tone aligned to the brand profile.
 - Return only JSON. No markdown.
 """

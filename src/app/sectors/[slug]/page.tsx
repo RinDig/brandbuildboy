@@ -10,13 +10,13 @@ interface SectorPageProps {
 }
 
 export async function generateStaticParams() {
-  const sectors = await getSectors();
+  const sectors = await getSectors("eduba");
   return sectors.map((sector) => ({ slug: sector.slug }));
 }
 
 export async function generateMetadata({ params }: SectorPageProps) {
   const { slug } = await params;
-  const sector = await getSectorBySlug(slug);
+  const sector = await getSectorBySlug(slug, "eduba");
 
   if (!sector) {
     return {};
@@ -30,14 +30,14 @@ export async function generateMetadata({ params }: SectorPageProps) {
 
 export default async function SectorRoute({ params }: SectorPageProps) {
   const { slug } = await params;
-  const sector = await getSectorBySlug(slug);
+  const sector = await getSectorBySlug(slug, "eduba");
 
   if (!sector) {
     notFound();
   }
 
   return (
-    <Layout>
+    <Layout brandKey="eduba">
       <SectorPage sector={sector} />
     </Layout>
   );

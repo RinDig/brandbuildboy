@@ -12,6 +12,14 @@ export const sector = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "brand",
+      title: "Brand Key",
+      type: "string",
+      initialValue: "eduba",
+      validation: (Rule) => Rule.required(),
+      description: "Tenant/brand identifier, for example: eduba, pilot",
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
