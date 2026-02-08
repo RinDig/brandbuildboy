@@ -1,13 +1,13 @@
 # Railway Deployment Guide
 
 This app needs both Node.js (Next.js) and Python (agent pipeline).  
-`nixpacks.toml` is configured so Railway installs both runtimes and agent dependencies.
-If Railway is using Railpack, keep the root `requirements.txt` file so Python is auto-detected.
+Railpack may only detect Node in some projects.  
+This repo includes a `Dockerfile` that installs both runtimes and is the recommended Railway path.
 
 ## 1) Create Railway service
 
 1. In Railway, create a new project from this GitHub repo.
-2. Keep default Nixpacks builder (it will read `nixpacks.toml`).
+2. In Railway service settings, set `Builder` to `Dockerfile`.
 
 ## 2) Add environment variables
 
@@ -23,7 +23,7 @@ Set these in Railway Variables:
 - `SANITY_API_READ_TOKEN` (optional for frontend read)
 - `SANITY_API_WRITE_TOKEN` (required for create/edit publish)
 - `SITE_URL` (set to your Railway public URL or custom domain)
-- `PYTHON_BIN=python`
+- `PYTHON_BIN` is already set by the `Dockerfile` (`/opt/venv/bin/python`), so you can omit it.
 
 ## 3) Sanity schema
 
