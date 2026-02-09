@@ -10,6 +10,7 @@ from agent.pipeline import (
     generate_updated_payload,
     publish_sector_payload,
 )
+from agent.sanity_client import assert_create_permission
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -47,6 +48,13 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> None:
     args = build_parser().parse_args()
     settings = get_settings()
+    if not args.no_publish:
+        assert_create_permission(
+            settings.sanity_project_id,
+            settings.sanity_dataset,
+            settings.sanity_api_version,
+            settings.sanity_api_token,
+        )
 
     include_categories = args.include
     if args.website and not include_categories:
