@@ -40,17 +40,22 @@ def get_settings() -> Settings:
     sanity_project_id = os.getenv("SANITY_PROJECT_ID", "").strip()
     sanity_dataset = os.getenv("SANITY_DATASET", "").strip()
     sanity_api_version = os.getenv("SANITY_API_VERSION", DEFAULT_SANITY_VERSION)
-    sanity_api_token = (
-        os.getenv("SANITY_API_WRITE_TOKEN")
-        or os.getenv("SANITY_API_READ_TOKEN")
-        or ""
-    ).strip()
+    sanity_api_write_token = os.getenv("SANITY_API_WRITE_TOKEN", "").strip()
+    sanity_api_read_token = os.getenv("SANITY_API_READ_TOKEN", "").strip()
+    sanity_api_token = sanity_api_write_token or sanity_api_read_token
     site_url = os.getenv("SITE_URL", DEFAULT_SITE_URL).rstrip("/")
 
     if not anthropic_api_key:
         raise ValueError("ANTHROPIC_API_KEY is required")
-    if not sanity_project_id or not sanity_dataset or not sanity_api_token:
+    if not sanity_project_id or not sanity_dataset:
         raise ValueError("Sanity project, dataset, and token are required")
+    if not sanity_api_write_token:
+        if sanity_api_read_token:
+            raise ValueError(
+                "SANITY_API_WRITE_TOKEN is required for publishing. "
+                "SANITY_API_READ_TOKEN cannot create documents."
+            )
+        raise ValueError("SANITY_API_WRITE_TOKEN is required for publishing.")
 
     model = (
         os.getenv("ANTHROPIC_MODEL")

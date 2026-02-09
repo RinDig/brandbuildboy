@@ -121,5 +121,12 @@ def publish_sector(
     payload = {"mutations": [{"createOrReplace": document}]}
     response = requests.post(url, headers=headers, data=json.dumps(payload), timeout=30)
     if not response.ok:
-        raise RuntimeError(f"Sanity publish failed: {response.status_code} {response.text}")
+        details = response.text
+        if response.status_code == 403 and "permission \"create\" required" in details:
+            raise RuntimeError(
+                "Sanity publish failed: API token lacks create permission for this dataset. "
+                "Use SANITY_API_WRITE_TOKEN with create/update rights (Editor role or equivalent). "
+                f"Raw response: {details}"
+            )
+        raise RuntimeError(f"Sanity publish failed: {response.status_code} {details}")
     return response.json()
