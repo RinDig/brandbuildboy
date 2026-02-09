@@ -53,11 +53,13 @@ export function CreatePageForm({ brandKey = "eduba" }: CreatePageFormProps) {
   >("idle");
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [errorDetails, setErrorDetails] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus("submitting");
     setError(null);
+    setErrorDetails(null);
     setResult(null);
 
     const form = event.currentTarget;
@@ -87,6 +89,9 @@ export function CreatePageForm({ brandKey = "eduba" }: CreatePageFormProps) {
       if (!response.ok) {
         setStatus("error");
         setError(data.error || "Failed to generate page");
+        setErrorDetails(
+          typeof data.details === "string" ? data.details : null
+        );
         return;
       }
 
@@ -95,6 +100,7 @@ export function CreatePageForm({ brandKey = "eduba" }: CreatePageFormProps) {
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unexpected error");
+      setErrorDetails(null);
     }
   };
 
@@ -300,6 +306,9 @@ https://example.com/old-post`}
               <div className={styles.errorCard}>
                 <span className={styles.errorLabel}>Generation failed</span>
                 <span>{error}</span>
+                {errorDetails && (
+                  <pre className={styles.errorDetails}>{errorDetails}</pre>
+                )}
               </div>
             )}
           </div>

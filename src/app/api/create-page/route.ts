@@ -87,8 +87,25 @@ export async function POST(request: Request) {
     const { exitCode, stdout, stderr } = await runPythonCommand(args);
 
     if (exitCode !== 0) {
+      const details = stderr || stdout;
+      console.error(
+        "[create-page] agent failed",
+        JSON.stringify(
+          {
+            exitCode,
+            brand,
+            company,
+            sector,
+            slug: slug || null,
+            website: website || null,
+            detailsPreview: details.slice(0, 4000),
+          },
+          null,
+          2
+        )
+      );
       return NextResponse.json(
-        { error: "Agent run failed", details: stderr || stdout },
+        { error: "Agent run failed", details },
         { status: 500 }
       );
     }
@@ -102,6 +119,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ url, output: stdout });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("[create-page] unhandled error", error);
     return NextResponse.json({ error: message }, { status: 500 });
   } finally {
     await fs.rm(tmpDir, { recursive: true, force: true });
