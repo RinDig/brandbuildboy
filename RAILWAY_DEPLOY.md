@@ -16,7 +16,7 @@ Set these in Railway Variables:
 - `ANTHROPIC_API_KEY`
 - `ANTHROPIC_MODEL` (optional, default: `claude-sonnet-4-5-20250929`)
 - `ANTHROPIC_TEMPERATURE` (optional, default: `0.3`)
-- `ANTHROPIC_MAX_OUTPUT_TOKENS` (optional, default: `2400`)
+- `ANTHROPIC_MAX_OUTPUT_TOKENS` (optional, default: `8192`)
 - `SANITY_PROJECT_ID`
 - `SANITY_DATASET` (usually `production`)
 - `SANITY_API_VERSION` (default: `2023-08-01`)

@@ -5,6 +5,7 @@ import json
 from anthropic import Anthropic
 
 MAX_JSON_PARSE_RETRIES = 2
+MAX_RETRY_TOKENS = 8192
 RETRY_INSTRUCTION = (
     "Your previous response was not valid JSON. Return ONLY valid JSON."
     " Do not include markdown fences, explanations, or comments."
@@ -53,11 +54,15 @@ class AnthropicClient:
         self.parse_retries = max(0, parse_retries)
 
     def _request_text(
-        self, system_prompt: str, user_prompt: str, temperature: float | None = None
-    ) -> str:
+        self,
+        system_prompt: str,
+        user_prompt: str,
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+    ) -> tuple[str, str | None]:
         response = self.client.messages.create(
             model=self.model,
-            max_tokens=self.max_output_tokens,
+            max_tokens=max_tokens if max_tokens is not None else self.max_output_tokens,
             temperature=self.temperature if temperature is None else temperature,
             system=system_prompt.strip(),
             messages=[
@@ -76,11 +81,15 @@ class AnthropicClient:
         text = "\n".join(chunks).strip()
         if not text:
             raise ValueError("Anthropic response had no text content")
-        return text
+        stop_reason = getattr(response, "stop_reason", None)
+        return text, stop_reason
 
     def generate_json(self, system_prompt: str, user_prompt: str) -> dict:
         base_prompt = user_prompt.strip()
-        text = self._request_text(system_prompt, base_prompt)
+        current_max_tokens = self.max_output_tokens
+        text, stop_reason = self._request_text(
+            system_prompt, base_prompt, max_tokens=current_max_tokens
+        )
         last_error: Exception | None = None
 
         for attempt in range(self.parse_retries + 1):
@@ -90,13 +99,23 @@ class AnthropicClient:
                 last_error = err
                 if attempt >= self.parse_retries:
                     break
+                if stop_reason == "max_tokens":
+                    current_max_tokens = min(
+                        max(current_max_tokens * 2, current_max_tokens + 1024),
+                        MAX_RETRY_TOKENS,
+                    )
                 retry_prompt = (
                     f"{base_prompt}\n\n"
                     f"{RETRY_INSTRUCTION}\n"
                     f"Previous parse error: {err}\n"
                     "Re-output the full JSON object now."
                 )
-                text = self._request_text(system_prompt, retry_prompt, temperature=0.0)
+                text, stop_reason = self._request_text(
+                    system_prompt,
+                    retry_prompt,
+                    temperature=0.0,
+                    max_tokens=current_max_tokens,
+                )
 
         preview = text[:1200].replace("\n", " ")
         raise ValueError(
